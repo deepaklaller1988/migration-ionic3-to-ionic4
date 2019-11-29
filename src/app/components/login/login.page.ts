@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
     this.navctrl.navigateForward("signup");
   }
   goToForgotPassword() {
-    this.navctrl.navigateForward("ForgetPasswordPage");
+    this.navctrl.navigateForward("forgot-password");
   }
 
   ionViewWillEnter(){

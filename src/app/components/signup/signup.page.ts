@@ -30,7 +30,7 @@ export class SignupPage implements OnInit {
   }
 
   goToLogin() {
-    this.navctrl.navigateRoot(["LoginPage", { tabsHideOnSubPages: true }]);
+    this.navctrl.navigateRoot(["login", { tabsHideOnSubPages: true }]);
   }
 
   ionViewWillEnter() { //required to hide tabs on this
