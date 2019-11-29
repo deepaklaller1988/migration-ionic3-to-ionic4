@@ -1,0 +1,151 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>edit-profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="edit-profile-content">
+
+  <div class="form-wrapper">
+    <ion-row>
+     <ion-col col-6>
+    <div class="upload-wrapper">
+      <input type="file" id="inputFileProfileEdit" class="inputfile" accept="image/*" (change)="selectImage($event,0)">
+      <label for="inputFileProfileEdit" class="upload">
+       Change Profile
+      </label>
+    </div>
+   </ion-col>
+   <ion-col col-6>
+    <div class="upload-wrapper">   
+      <input type="file" class="inputfile" id="inputFileCoverEdit" accept="image/*" (change)="selectImage($event,1)">
+      <label for="inputFileCoverEdit" class="upload">
+       Change Cover
+      </label>
+    </div>
+  </ion-col>
+ </ion-row>
+
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+
+      <ion-item-divider>Basic information</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" placeholder="User name" [(ngModel)]="user.username" name="username"></ion-input>
+        <ion-icon item-left name="contact"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="email" placeholder="Email address" [(ngModel)]="user.email" disabled name="email"></ion-input>
+        <ion-icon item-left name="mail"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="tel" placeholder="Mobile number" [(ngModel)]="user.mobileNumber" name="mobileNumber"></ion-input>
+        <ion-icon item-left name="phone-portrait"></ion-icon>
+      </ion-item>
+      <!-- <ion-item>
+        <ion-input type="tel" placeholder="Phone number" [(ngModel)]="user.phoneNumber" name="phoneNumber"></ion-input>
+        <ion-icon item-left name="call"></ion-icon>
+      </ion-item> -->
+      <ion-item>
+        <ion-input type="date" placeholder="Birthdate" [(ngModel)]="user.birthDate" name="birthdate"></ion-input>
+        <ion-icon item-left name="bonfire"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-textarea placeholder="About" [(ngModel)]="user.about" name="about"></ion-textarea>
+        <ion-icon item-left name="quote"></ion-icon>
+      </ion-item>
+      <!-- <div radio-group class="radio-btn">
+        <ion-label class="title">Gender</ion-label>
+        <div class="radio-wrapper">
+          <ion-list radio-group [(ngModel)]="user.gender" class="gender" name="gender">
+            <ion-item>
+              <ion-label>Male</ion-label>
+              <ion-radio checked="true" value="male"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Female</ion-label>
+              <ion-radio value="female"></ion-radio>
+            </ion-item>
+          </ion-list>
+        </div>
+      </div> -->
+      <ion-radio-group (ionChange)="onChangeHandler($event)">
+        <ion-item>
+          <ion-label>Male</ion-label>
+          <ion-radio value="male" [checked]="user.gender==='male'"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Female</ion-label>
+          <ion-radio value="female" [checked]="user.gender==='female'"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+
+      <ion-item-divider>Education</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" placeholder="Qualification" [(ngModel)]="user.education.qualification" name="qualification"></ion-input>
+        <ion-icon item-left name="bookmarks"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="University" [(ngModel)]="user.education.University" name="University"></ion-input>
+        <ion-icon item-left name="school"></ion-icon>
+      </ion-item>
+
+      <ion-item-divider>Profession</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" placeholder="Profile" [(ngModel)]="user.education.profile" name="profile"></ion-input>
+        <ion-icon item-left name="barcode"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="Company" [(ngModel)]="user.education.company" name="company"></ion-input>
+        <ion-icon item-left name="globe"></ion-icon>
+      </ion-item>
+
+      <ion-item-divider>Current Address</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" placeholder="Street" [(ngModel)]="user.currentAddress.street" name="street"></ion-input>
+        <ion-icon item-left name="home"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="City" [(ngModel)]="user.currentAddress.city" name="city"></ion-input>
+        <ion-icon item-left name="locate"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder="Pincode" [(ngModel)]="user.currentAddress.pincode" name="pincode"></ion-input>
+        <ion-icon item-left name="code"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="Country" [(ngModel)]="user.currentAddress.country" name="country"></ion-input>
+        <ion-icon item-left name="flag"></ion-icon>
+      </ion-item>
+
+      <ion-item-divider>Permanent Address</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" placeholder="Street" [(ngModel)]="user.permanentAddress.street" name="pStreet"></ion-input>
+        <ion-icon item-left name="home"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="City" [(ngModel)]="user.permanentAddress.city" name="pCity"></ion-input>
+        <ion-icon item-left name="locate"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder="Pincode" [(ngModel)]="user.permanentAddress.pincode" name="pPincode"></ion-input>
+        <ion-icon item-left name="code"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="Country" [(ngModel)]="user.permanentAddress.country" name="pCountry"></ion-input>
+        <ion-icon item-left name="flag"></ion-icon>
+      </ion-item>
+      <button class="submit-btn" ion-button block type="submit">Save Changes</button>
+    </form>
+  </div>
+  <!-- form content -->
+</ion-content>

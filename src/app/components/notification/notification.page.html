@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-title class="ion-text-center" >Notifications</ion-title>
+      <ion-buttons slot="end">
+          <ion-button (click)="markAllAsRead()">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="notifications-content">
+    <div *ngIf="notifications | async as notifications">
+      <ion-item *ngIf="notifications?.length==0">
+        <p>No unread notifications.!</p>
+      </ion-item>
+    </div>
+    <span *ngFor="let notification of notifications | async">
+      <ion-item *ngIf="notification?.userInfo | async as userInfo" class="item" (click)="goToCommentPage(notification)">
+        <ion-avatar item-left>
+          <img src="{{userInfo?.profilePicThumb ? userInfo.profilePicThumb : userInfo.profilePic}}" class="img-avatar">
+        </ion-avatar>
+        <p>{{userInfo.username}}&nbsp;{{notification.event}}&nbsp;your post.</p>
+        <ion-note class="time">{{notification.createdAt | amTimeAgo }}</ion-note>
+      </ion-item>
+    </span>
+  </ion-content>
+  <ion-fab bottom right (click)="goToPostPage()">
+    <button ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>

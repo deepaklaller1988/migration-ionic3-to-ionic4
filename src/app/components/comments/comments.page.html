@@ -1,0 +1,64 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Comments</ion-title>
+	</ion-toolbar>
+</ion-header>
+<span class="comments-content">
+	<ion-content>
+		<ion-card class="home-post" *ngIf="post.postOf | async as postOf">
+			<ion-item (click)="userDetails()">
+				<ion-avatar item-start>
+					<img src="{{postOf.profilePicThumb ? postOf.profilePicThumb : postOf.profilePic}}">
+				</ion-avatar>
+				<h2 class="user-name">{{postOf.username}}</h2>
+				<p class="publish-date">{{post?.createdAt | amTimeAgo }}</p>
+			</ion-item>
+			<ion-img-viewer title="" alt="" text="" *ngIf="post?.isImgPost" src="{{post?.postPic}}" class="big-image"></ion-img-viewer>
+			<!-- <img  imageViewer> -->
+			<p class="description">{{post?.postText}}</p>
+			<!-- footer row -->
+		</ion-card>
+		<!-- homer post -->
+		<ion-card class="comments-list">
+			<ion-list>
+				<ion-item class="comments-item" *ngFor="let cmt of comments | async">
+					<ion-row no-padding *ngIf="cmt?.commentedByInfo | async as commentedByInfo">
+						<ion-col col-2>
+							<img src="{{commentedByInfo?.profilePicThumb ? commentedByInfo?.profilePicThumb : commentedByInfo?.profilePic}}" class="avatar-img">
+						</ion-col>
+						<ion-col col-10>
+							<ion-row>
+								<ion-col col-8 no-padding>
+									<h3 class="user-name">{{commentedByInfo?.username}} </h3>
+								</ion-col>
+								<ion-col col-4 text-right no-padding>
+									<ion-note class="time" item-right>{{cmt?.createdAt | amTimeAgo }}</ion-note>
+								</ion-col>
+							</ion-row>
+							<p class="comment" text-wrap>{{cmt?.comment}}</p>
+						</ion-col>
+					</ion-row>
+				</ion-item>
+			</ion-list>
+		</ion-card>
+
+	</ion-content>
+	<!-- footer with input box and send button -->
+	<ion-footer>
+		<ion-row class="commnets-footer-row">
+			<ion-col col-10 no-padding>
+				<ion-item>
+					<ion-input type="text" placeholder=" Write a comment..." name="message" [(ngModel)]="comment" required>
+					</ion-input>
+				</ion-item>
+			</ion-col>
+			<ion-col col-2 no-padding>
+				<button ion-button icon only *ngIf="post.postOf | async as postOf" [disabled]="!comment" (click)="postComment(post, postOf.playerId)"
+				 type="button" class="send-btn">
+					<ion-icon class="enter-btn" name="send"></ion-icon>
+				</button>
+			</ion-col>
+		</ion-row>
+	</ion-footer>
+	<!-- footer -->
+</span>

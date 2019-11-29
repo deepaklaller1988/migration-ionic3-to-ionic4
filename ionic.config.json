@@ -1,0 +1,7 @@
+{
+  "name": "SocialApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

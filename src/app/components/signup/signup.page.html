@@ -1,0 +1,39 @@
+<ion-content class="form-content">
+  <form class="form-wrapper" [formGroup]="signupForm" (ngSubmit)="onRegister()">
+    <!-- logo-image -->
+    <img src="assets/icon/logo.png" class="logo-img">
+
+     <ion-item>
+      <ion-input type="text" placeholder="Username" formControlName="username" ></ion-input>
+      <ion-icon item-left name="contact"></ion-icon>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      <ion-icon item-left name="mail"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+       <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+       <ion-icon item-left name="lock"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+       <ion-input type="password" placeholder="confirm password" formControlName="confirmPassword"></ion-input>
+       <ion-icon item-left name="lock"></ion-icon>
+    </ion-item>
+
+
+    <button ion-button block class="submit-btn" type="submit" [disabled]="!signupForm.valid">Sign up</button>
+  </form>
+  <br>
+  <ion-row class="divider">
+    <ion-col><hr></ion-col>
+    <ion-col col-8>Already Have an Acount?</ion-col>
+    <ion-col><hr></ion-col>
+  </ion-row>
+  <div class="goto-btn-wrapper">
+  	<button ion-button block class="goto-btn" (click)="goToLogin()" type="submit" >Goto Login</button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,45 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>search</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+<ion-header>
+    <ion-toolbar>
+      <ion-searchbar (ionInput)="onEnterSearch($event)"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="search-content">
+    <div *ngIf="users | async as users">
+      <ion-item *ngIf="users?.length==0">
+        <p>No user found.!</p>
+      </ion-item>
+    </div>
+    <div *ngFor="let user of users | async">
+      <ion-item class="item" *ngIf="user?.uid != uid">
+        <ion-avatar item-left >
+          <img src="{{user.profilePicThumb? user.profilePicThumb: user.profilePic}}" class="img-avatar">
+        </ion-avatar>
+        <h2 class="name" (click)="goToOthersProfile(user.uid)">{{user.username}}</h2>
+        <p (click)="goToOthersProfile(user.uid)">{{user.email}}</p>
+  
+        <div item-right class="right-btn" *ngIf="user?.checkIsFollowing | async as following">
+          <button ion-button class="btn-follow" (click)="followUnfollowUser(following.length==1, user?.uid)" [ngClass]="{unfollowBtn: following.length==1}">
+            <span>{{following.length==1 ? 'UNFOLLOW': 'FOLLOW'}}</span>
+          </button>
+        </div>
+      </ion-item>
+    </div>
+  
+  </ion-content>
+  
+  
+  <ion-fab bottom right (click)="goToPostPage()">
+    <button ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>

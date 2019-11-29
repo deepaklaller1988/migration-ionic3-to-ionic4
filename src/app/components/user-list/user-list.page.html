@@ -1,0 +1,41 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>user-list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Users</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="search-content">
+	<div *ngIf="users">
+		<ion-item *ngIf="users?.length==0">
+			<p>No user found.!</p>
+		</ion-item>
+	</div>
+	<div *ngFor="let user of users">
+		<div *ngIf="user | async as user">
+			<ion-item class="item">
+				<ion-avatar item-left (click)="goToOthersProfile(user[0].uid)">
+					<img src="{{user[0].profilePicThumb? user[0].profilePicThumb: user[0].profilePic}}" class="img-avatar">
+				</ion-avatar>
+				<h2 class="name" (click)="goToOthersProfile(user[0].uid)">{{user[0].username}}</h2>
+				<p (click)="goToOthersProfile(user[0].uid)">{{user[0].email}}</p>
+				<div item-right class="right-btn" *ngIf="user[0]?.checkIsFollowing | async as following">
+					<button *ngIf="user[0]?.uid != uid" ion-button class="btn-follow" (click)="followUnfollowUser(following.length==1, user[0]?.uid)"
+					 [ngClass]="{unfollowBtn: following.length==1}">
+						<span>{{following.length==1 ? 'UNFOLLOW': 'FOLLOW'}}</span>
+					</button>
+				</div>
+			</ion-item>
+		</div>
+	</div>
+
+</ion-content>

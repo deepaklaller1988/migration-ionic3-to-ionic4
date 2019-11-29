@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-title>{{username}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="chat-content">
+  <div *ngIf="chat | async as chat">
+      <ion-item *ngIf="chat?.length==0">
+          <p>Conversation not yet started.!</p>
+      </ion-item>
+  </div>
+  <div *ngFor="let msg of chat | async">
+      <ion-row *ngIf="(msg.uid == senderId); else other_content">
+          <ion-col class="chat-box" col-10>
+              <div class="chat-header">
+                  <span class="time">{{ msg.createdAt| amTimeAgo }}</span>
+              </div>
+              <p class="msg" class="ion-text-wrap">{{msg.text}}</p>
+          </ion-col>
+      </ion-row>
+      <ng-template #other_content>
+          <ion-row>
+              <ion-col class="chat-box-right" col-10 offset-2>
+                  <div class="chat-header">
+                      <span class="time">{{msg.createdAt | amTimeAgo }}</span>
+                  </div>
+                  <p class="msg rt" class="ion-text-wrap">{{msg.text}}</p>
+              </ion-col>
+          </ion-row>
+      </ng-template>
+  </div>
+  <p class="devider-time"></p>
+  <br>
+  <br>
+  <br>
+  <ion-footer>
+      <ion-row class="chat-footer">
+          <ion-col col-10 class="ion-no-padding">
+              <ion-item>
+                  <ion-input type="text" placeholder=" Type message..." name="message" id="message" [(ngModel)]="message"></ion-input>
+              </ion-item>
+          </ion-col>
+          <ion-col col-2 class="ion-no-padding">
+              <button ion-button icon only type="button" [disabled]="!message" class="send-btn" (click)="onClickSend()">
+                  <ion-icon class="enter-btn" name="send"></ion-icon>
+              </button>
+          </ion-col>
+      </ion-row>
+  </ion-footer>
+</ion-content>

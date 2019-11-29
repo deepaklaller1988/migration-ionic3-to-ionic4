@@ -1,0 +1,34 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Messages</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="notifications-content">
+	<div *ngIf="messageList">
+		<ion-item *ngIf="messageList?.length==0">
+			<p>Conversation not yet started.!</p>
+		</ion-item>
+	</div>
+	<span *ngFor="let message of messageList">
+		<ion-item *ngIf="message?.receiverInfo | async as userInfo" class="item" (click)="goToChat(message?.chatId, userInfo?.uid, userInfo?.username)">
+			<ion-avatar item-left>
+				<img src="{{userInfo?.profilePicThumb ? userInfo.profilePicThumb : userInfo.profilePic}}" class="img-avatar">
+			</ion-avatar>
+			<h2 class="name">{{userInfo?.username}}</h2>
+			<span *ngIf="message?.lastMsg | async as lastMsg">
+				<ion-note class="time" item-right *ngIf="lastMsg[0]?.createdAt">{{lastMsg[0]?.createdAt | amTimeAgo }}</ion-note>
+				<span *ngIf="message?.counter | async as counter">
+					<span class="msg-count" *ngIf="counter.length>0">{{counter?.length}}</span>
+				</span>
+				<p class="description">{{lastMsg[0]?.text}}</p>
+			</span>
+		</ion-item>
+	</span>
+</ion-content>
+
+<ion-fab bottom right (click)="goToFollowedByList()">
+	<button ion-fab>
+		<ion-icon name="chatboxes"></ion-icon>
+	</button>
+</ion-fab>

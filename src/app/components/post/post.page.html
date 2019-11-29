@@ -1,0 +1,66 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="post-content">
+  <ion-card class="post-header" *ngIf="loggedinUserInfo | async as userInfo" (click)="goToProfile()">
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="{{userInfo?.profilePicThumb? userInfo.profilePicThumb: userInfo.profilePic}}">
+      </ion-avatar>
+      <div class="user-name">{{userInfo?.username}}</div>
+    </ion-item>
+  </ion-card>
+  <!-- homer header -->
+
+  <ion-card class="home-post" *ngIf="isSharedPost">
+    <ion-item (click)="userDetails(post?.postedBy)">
+      <ion-avatar item-start>
+        <img src="{{post?.profilePicThumb? post.profilePicThumb : post.profilePic}}">
+      </ion-avatar>
+      <h2 *ngIf="post?.postOf | async as postOf" class="user-name">{{postOf?.username}}</h2>
+      <p class="publish-date">{{post?.createdAt | amTimeAgo }}</p>
+    </ion-item>
+    <img *ngIf="post?.isImgPost" src="{{post?.postPicThumb? post.postPicThumb: post.postPic}}" class="big-image">
+    <p class="description">{{post?.postText}}</p>
+  </ion-card>
+
+  <ion-card class="other-option" (click)="onClickOption()">
+    <button ion-item type="button" *ngIf="!isSharedPost">
+      <ion-icon name="heart" item-left></ion-icon>
+      Status
+    </button>
+    <div class="upload-item-wrapper" *ngIf="!isSharedPost">
+      <button type="button" ion-item class="upload-item">
+        <ion-icon name="images" item-left></ion-icon>
+        Photo
+      </button>
+      <input type="file" id="inputFileId" accept="image/*" (change)="selectImage($event)">
+    </div>
+    <!-- <button ion-item type="button" *ngIf="!isSharedPost">
+      <ion-icon name="navigate" item-left></ion-icon>
+      Checkin
+    </button> -->
+    <ion-item class="input-item" *ngIf="showTextArea">
+      <ion-textarea placeholder="What's on your mind?" [(ngModel)]="postText">
+      </ion-textarea>
+    </ion-item>
+    <img *ngIf="localImgUrl" src="{{localImgUrl}}" width="300">
+    <div class="text-right">
+      <button type="button" ion-button class="btn-post" *ngIf="!isImgPost" [disabled]="!postText" (click)="postStatus()">Post</button>
+      <button type="button" ion-button class="btn-post" *ngIf="isImgPost" (click)="postStatus()">Post</button>
+    </div>
+  </ion-card>
+</ion-content>

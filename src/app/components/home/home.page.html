@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-toolbar hideBackButton color="primary">
+        <ion-buttons slot="start" menuToggle>
+            <ion-menu-button autoHide="false"></ion-menu-button>
+          </ion-buttons>
+        <ion-title class="ion-text-center">Timeline</ion-title>
+       <ion-buttons slot="end">
+          <ion-button icon-only (click)="goToMessage()">
+            <ion-icon name="chatboxes"></ion-icon>
+            <ion-badge item-right>{{msgCount>0?'New':''}}</ion-badge>
+          </ion-button>
+        </ion-buttons> 
+    </ion-toolbar>
+  </ion-header>
+<ion-content class="home-content">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh(uid, $event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card class="home-header">
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{loggedinUserInfo?.profilePicThumb ? loggedinUserInfo?.profilePicThumb : loggedinUserInfo?.profilePic}}" (click)="goToProfile()">
+      </ion-avatar>
+      <p (click)="goToPostPage()">What's in your mind ? {{loggedinUserInfo?.username}}</p>
+    </ion-item>
+  </ion-card>
+  <!-- homer header -->
+
+  <!-- home-post -->
+
+
+  <ion-item *ngIf="isPostsNotAvailable">
+    <p>No posts are there. Start following user to see their post.</p>
+  </ion-item>
+  <ion-card class="home-post" *ngFor="let post of followedUsersPost | async">
+    <div *ngIf="post.postOf | async as postOf">
+      <ion-item>
+        <ion-avatar item-start>
+          <img (click)="userDetails(post?.postedBy)" src="{{postOf?.profilePicThumb ? postOf?.profilePicThumb : postOf?.profilePic}}">
+        </ion-avatar>
+        <h2 class="user-name">
+          <span (click)="userDetails(post?.postedBy)">{{postOf.username}} </span>
+          <span class="shared" *ngIf="post?.isSharedPost">&nbsp; shared &nbsp;
+            <span class="shared-name" *ngIf="post?.whosePostInfo | async as whosePostInfo" (click)="userDetails(post?.whosePost)">{{whosePostInfo.username}}'s </span> post. </span>
+        </h2>
+        <p class="publish-date">{{post?.createdAt | amTimeAgo }}</p> 
+      </ion-item>
+      <img *ngIf="post?.isImgPost" src="{{post?.postPicThumb ? post.postPicThumb : post.postPic}}" (click)="goToCommentPage(post)"
+        class="big-image">
+      <p class="description" (click)="goToCommentPage(post)">{{post?.postText}}</p>
+      <hr *ngIf="post?.isSharedPost">
+      <p class="description" *ngIf="post?.isSharedPost" (click)="goToCommentPage(post)">{{post?.oldPostText}}</p>
+
+      <ion-row class="counter-row">
+        <ion-col *ngIf="post?.likedBy | async as likedBy" (click)="goToUserList(likedBy)">
+          <button ion-button icon-left clear small class="footer-btn">
+            {{likedBy.length}} &nbsp;&nbsp;
+            <ion-icon class="heart-2" name="thumbs-up"></ion-icon>
+          </button>
+        </ion-col>
+
+        <ion-col *ngIf="post?.commentedBy | async as commentedBy" (click)="goToUserList(commentedBy)">
+          <button ion-button icon-left clear small class="footer-btn">
+            {{commentedBy.length}} &nbsp;&nbsp;
+            <ion-icon name="chatbubbles"></ion-icon>
+          </button>
+        </ion-col>
+
+        <ion-col *ngIf="post?.sharedBy | async as sharedBy" (click)="goToUserList(sharedBy)">
+          <button ion-button icon-left clear small class="footer-btn">
+            {{sharedBy.length}} &nbsp;&nbsp;
+            <ion-icon name="share-alt"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <!-- foooter row with buttons likes comment and share  -->
+      <ion-row class="footer-row">
+        <ion-col class="ion-no-padding" chatbubbles-center>
+          <button ion-button icon-left clear small class="footer-btn" *ngIf="post?.liked | async as liked" [ngClass]="{like: liked.length==1}"
+            (click)="likePost(post, liked.length==1, postOf.playerId)">
+            <ion-icon name="heart"></ion-icon>&nbsp;&nbsp; {{liked.length==1?'Unlike':'Like'}}
+          </button>
+        </ion-col>
+        <!-- photo button -->
+        <ion-col class="ion-no-padding" chatbubbles-center>
+          <button ion-button icon-left clear small class="footer-btn" (click)="goToCommentPage(post)">
+            <ion-icon name="chatbubbles"></ion-icon>&nbsp;&nbsp; Comment
+          </button>
+        </ion-col>
+        <!-- check-in button -->
+        <ion-col class="ion-no-padding" chatbubbles-center>
+          <button ion-button icon-left clear small class="footer-btn last" (click)="goToPostPage(post, postOf)">
+            <ion-icon name="share-alt"></ion-icon>&nbsp;&nbsp; Share
+          </button>
+        </ion-col>
+      </ion-row>
+    </div>
+    <!-- footer row -->
+  </ion-card>
+  <!-- homer post -->
+
+</ion-content>
+<!-- home content  -->
+
+<ion-fab bottom right (click)="goToPostPage()">
+  <button ion-fab>
+    <ion-icon name="add"></ion-icon>
+  </button>
+</ion-fab>

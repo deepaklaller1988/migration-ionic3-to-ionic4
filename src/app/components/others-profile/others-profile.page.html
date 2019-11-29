@@ -1,0 +1,224 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>others-profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+<ion-header>
+	<ion-toolbar>
+		<ion-title *ngIf="otherUserInfo | async as userInfo">{{userInfo?.username}}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="other-profile-content">
+	<div class="profile-header">
+		<span *ngIf="otherUserInfo | async as userInfo">
+			<div class="bg-overlay"></div>
+			<img src="{{userInfo?.coverPicThumb? userInfo?.coverPicThumb: userInfo.coverPic? userInfo.coverPic : 'assets/img/profile-bg3.jpg'}}"
+			 class="profile-bg-img">
+			<ion-row>
+				<ion-col col-5>
+					<div class="avtar-wrapper">
+						<img src="{{userInfo?.profilePicThumb? userInfo.profilePicThumb: userInfo.profilePic}}" imageViewer>
+					</div>
+				</ion-col>
+				<ion-col col-7>
+					<h2 class="name">{{userInfo?.username}}</h2>
+					<p class="place" text-wrap>
+						<ion-icon name="pin" *ngIf="userInfo?.city"></ion-icon>&nbsp; &nbsp;{{userInfo?.city}}
+					</p>
+
+				</ion-col>
+			</ion-row>
+		</span>
+		<!-- name and pic -->
+		<!-- detail -->
+		<ion-row class="counter-link">
+			<!-- followers -->
+			<ion-col class="ion-text-center" *ngIf="followedBy | async as followedBy" (click)="goToUserList(followedBy)">
+				<p class="count">{{followedBy?.length}}</p>
+				<p class="count-text">Followers</p>
+			</ion-col>
+			<!-- following -->
+			<ion-col class="ion-text-center" *ngIf="followingTo | async as followingTo" (click)="goToUserList(followingTo)">
+				<p class="count">{{followingTo?.length}}</p>
+				<p class="count-text">Following</p>
+			</ion-col>
+			<!-- post -->
+			<ion-col class="ion-text-center" (click)="onClickPostsCount()">
+				<p class="count">{{posts?.length}}</p>
+				<p class="count-text">Post</p>
+			</ion-col>
+			<!-- pics-->
+			<ion-col class="ion-text-center" (click)="onClickPhotosCount()">
+				<p class="count">{{postImages?.length}}</p>
+				<p class="count-text">Photos</p>
+			</ion-col>
+		</ion-row>
+		<!-- detail -->
+		<!-- btn-group-row -->
+		<span *ngIf="otherUserInfo | async as userInfo">
+			<ion-row class="btn-group" *ngIf="isFollowed | async as isFollowed">
+				<ion-col>
+					<button ion-button outline block class="btn msg" (click)="goToChat(userInfo.canDoMessage, userInfo.username)">MESSAGE</button>
+				</ion-col>
+				<ion-col>
+					<button ion-button outline block class="btn follow" (click)="followUnfollowUser(isFollowed.length==1)">
+						<span>{{isFollowed.length==1 ? 'UNFOLLOW': 'FOLLOW'}}</span>
+					</button>
+				</ion-col>
+			</ion-row>
+		</span>
+		<!-- btn-group-row -->
+	</div>
+	<!-- profile header -->
+
+
+	<!--segment for post and images-->
+	<ion-segment [(ngModel)]="profile">
+		<!-- segment btn for About -->
+		<ion-segment-button value="about">
+			<ion-icon name="bicycle"></ion-icon>&nbsp;About
+		</ion-segment-button>
+		<!-- segment btn for Post -->
+		<ion-segment-button value="post">
+			<ion-icon name="document"></ion-icon>&nbsp;Post
+		</ion-segment-button>
+		<!-- segment btn for photo gallery -->
+		<ion-segment-button value="photos-gallery">
+			<ion-icon name="images"></ion-icon>&nbsp;Photos
+		</ion-segment-button>
+	</ion-segment>
+	<!-- content -->
+	<div [ngSwitch]="profile">
+		<!-- about-->
+		<div *ngSwitchCase="'about'" class="about">
+			<ion-row class="header">
+				<ion-col col-9>
+					<h6>Basic Info</h6>
+				</ion-col>
+			</ion-row>
+			<div class="cotent" *ngIf="otherUserDetailedInfo | async as userDetailedInfo">
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="pin"></ion-icon>Lives in </ion-col>
+					<ion-col class="details">
+						<span *ngIf="userDetailedInfo?.currentAddress?.city">{{userDetailedInfo?.currentAddress?.city + ', '}}{{userDetailedInfo?.currentAddress?.country}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="home"></ion-icon>Hometown </ion-col>
+					<ion-col class="details">
+						<span *ngIf="detailedUserInfo?.permanentAddress?.city">{{userDetailedInfo?.permanentAddress?.city+ ', '}}{{userDetailedInfo?.permanentAddress?.country}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="mail"></ion-icon>Email:</ion-col>
+					<ion-col class="details">
+						<span>{{userDetailedInfo?.email}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="phone-portrait"></ion-icon>Mobile: </ion-col>
+					<ion-col class="details">
+						<span>{{userDetailedInfo?.mobileNumber}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="call"></ion-icon>Phone: </ion-col>
+					<ion-col class="details">
+						<span>{{userDetailedInfo?.phoneNumber}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="person"></ion-icon>Gender: </ion-col>
+					<ion-col class="details">
+						<span>{{userDetailedInfo?.gender}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="bonfire"></ion-icon>Birth: </ion-col>
+					<ion-col class="details">
+						<span>{{userDetailedInfo?.birthDate | date}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="school"></ion-icon>Education: </ion-col>
+					<ion-col class="details">
+						<span *ngIf="userDetailedInfo?.education?.qualification">{{userDetailedInfo?.education?.qualification+ ' from '}}{{userDetailedInfo?.education?.University}}</span>
+					</ion-col>
+				</ion-row>
+				<ion-row class="cotent-item">
+					<ion-col col-4>
+						<ion-icon name="card"></ion-icon>About: </ion-col>
+					<ion-col class="details">
+						<span>{{userDetailedInfo?.about}}</span>
+					</ion-col>
+				</ion-row>
+			</div>
+		</div>
+
+		<!-- Post-->
+		<ion-list *ngSwitchCase="'post'">
+			<div *ngIf="posts?.length==0">
+				<ion-item>
+					<p>No post updated yet.!</p>
+				</ion-item>
+			</div>
+			<ion-card class="post" *ngFor="let post of posts">
+				<ion-card-content no-padding>
+					<ion-row>
+						<ion-col col-12>
+							<!-- <p class="description">{{post?.createdAt | amTimeAgo }}</p> -->
+							<img *ngIf="post?.isImgPost" src="{{post?.postPicThumb ? post.postPicThumb : post.postPic}}" class="post-image" imageViewer>
+						</ion-col>
+						<ion-col col-12>
+							<h2 class="description">{{post?.oldPostText? post?.oldPostText : post?.postText}}</h2>
+							<!-- footer-row likes and counter-->
+							<ion-row class="footer-row">
+								<div>
+									<ion-icon name="heart"></ion-icon>
+									<span class="count" *ngIf="post?.likedBy | async as likedBy">{{likedBy?.length}}</span>
+								</div>
+								<div>
+									<ion-icon name="chatbubbles"></ion-icon>
+									<span class="count" *ngIf="post?.commentedBy | async as commentedBy">{{commentedBy?.length}}</span>
+								</div>
+								<div>
+									<ion-icon name="share-alt"></ion-icon>
+									<span class="count" *ngIf="post?.sharedBy | async as sharedBy">{{sharedBy?.length}}</span>
+								</div>
+							</ion-row>
+						</ion-col>
+					</ion-row>
+				</ion-card-content>
+			</ion-card>
+		</ion-list>
+
+		<!-- pics -->
+		<div *ngSwitchCase="'photos-gallery'">
+			<div *ngIf="postImages?.length==0">
+				<ion-item>
+					<p>No images posted yet.!</p>
+				</ion-item>
+			</div>
+			<div class="gallary-grid">
+				<div class="img-wrap" *ngFor="let img of postImages">
+					<img src="{{img}}" imageViewer>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--content -->
+
+</ion-content>
