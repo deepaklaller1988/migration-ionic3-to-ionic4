@@ -1,0 +1,37 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>following-list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Followings</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content class="following-user-content">
+	<div *ngIf="followings | async as followings">
+		<ion-item *ngIf="followings?.length==0">
+			<p>You didn't follow any user yet.!</p>
+		</ion-item>
+	</div>
+	<span *ngFor="let following of followings | async">
+		<ion-item class="item" *ngIf="following.followingInfo | async as userInfo">
+			<ion-avatar item-left (click)="goToOthersProfile(following.followingTo)">
+				<img src="{{userInfo?.profilePicThumb ? userInfo.profilePicThumb : userInfo.profilePic}}" class="img-avatar">
+			</ion-avatar>
+			<h2 class="name" (click)="goToOthersProfile(following.followingTo)">{{userInfo?.username}}
+			</h2>
+			<p class="	">{{userInfo?.email}}</p>
+			<div item-right>
+				<button ion-button block class="btn-following" (click)="unfollowUser(following.followingTo)" [ngClass]="{unfollowBtn: followClass}">
+					<span>UNFOLLOW</span>
+				</button>
+			</div>
+		</ion-item>
+	</span>
+</ion-content>

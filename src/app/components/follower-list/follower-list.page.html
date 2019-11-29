@@ -1,0 +1,35 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>follower-list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Followers</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content class="search-content">
+	<div *ngIf="followers | async as followers">
+		<ion-item *ngIf="followers?.length==0">
+			<p>You don't have any followers yet.!</p>
+		</ion-item>
+	</div>
+	<span *ngFor="let follower of followers | async">
+		<ion-item *ngIf="follower.followerInfo | async as userInfo" class="item">
+			<ion-avatar item-left (click)="goToOthersProfile(follower.followedBy)">
+				<img src="{{userInfo.profilePicThumb ? userInfo.profilePicThumb : userInfo.profilePic}}" class="img-avatar">
+			</ion-avatar>
+			<h2 class="name" (click)="goToOthersProfile(follower.followedBy)">{{userInfo?.username}}</h2>
+			<p class="	">{{userInfo?.email}}</p>
+			<div item-right class="right-btn">
+				<button ion-button icon-only class="btn-chat" (click)="goToChat(follower.followedBy, userInfo?.username)">
+					<ion-icon name="chatbubbles"></ion-icon>
+				</button>
+			</div>
+		</ion-item>
+	</span>
+</ion-content>

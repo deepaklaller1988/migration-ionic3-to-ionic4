@@ -33,9 +33,12 @@ export class PostPage implements OnInit {
     private toastCtrl: ToastController,
     private homeService: HomeService) {
     this.uid = localStorage.getItem('uid');
-    this.post = JSON.parse(this.route.snapshot.queryParams['post']);
+    
   
-    if (this.post) {
+    if (this.route.snapshot.queryParams['post']) {
+
+      this.post = JSON.parse(this.route.snapshot.queryParams['post']);
+      
       this.post.postOf = this.homeService.getUserInfo(this.post.postedBy).valueChanges();
       this.playerId = this.post.playerId;
       this.showTextArea = true;

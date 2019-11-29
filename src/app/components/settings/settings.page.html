@@ -1,0 +1,44 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content> -->
+
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Settings</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content class="settings">
+	<ion-item-group>
+		<ion-item-divider class="divider">General</ion-item-divider>
+		<!-- <ion-item>
+		  <ion-label>Allow comment to my posts</ion-label>
+		  <ion-toggle checked="true"></ion-toggle>
+		</ion-item> -->
+		<ion-item>
+			<ion-label>Recieve message from anyone</ion-label>
+			<ion-toggle [(ngModel)]="canDoMessage" (ionChange)="allowMessageFromAnyOne()"></ion-toggle>
+		</ion-item>
+		<ion-item>
+			<ion-label>Allow push notification</ion-label>
+			<ion-toggle [(ngModel)]="allowPushNoti" (ionChange)="allowPushNotification()"></ion-toggle>
+		</ion-item>
+		<button menuClose class="menu-item" ion-item (click)="goToChangePassword()">
+			Change password
+		</button>
+		<!-- <button menuClose class="menu-item"ion-item >
+      		Deactivate account
+    </button>
+		<button menuClose class="menu-item"ion-item (click)="goToBlockedList()">
+      		View blocked list
+		</button> -->
+		<button menuClose class="menu-item" ion-item (click)="goToLogout()">
+			Logout
+		</button>
+	</ion-item-group>
+</ion-content>

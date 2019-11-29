@@ -172,7 +172,7 @@ export class HomePage implements OnInit {
     if (uid == this.uid) {
       this.goToProfile();
     } else {
-      this.navCtrl.navigateRoot(["others-profile", { uid: uid }]);
+      this.navCtrl.navigateRoot(["others-profile",uid ]);
     }
   }
 

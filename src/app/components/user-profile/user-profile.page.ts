@@ -98,7 +98,7 @@ export class UserProfilePage implements OnInit {
         }
       ]
     });
-    alert.present();
+    alert.present(); 
   }
 
   removeImageFromStorage(url) {
@@ -110,13 +110,13 @@ export class UserProfilePage implements OnInit {
     this.navCtrl.navigateRoot("edit-profile");
   }
   goToFollowingToList() {
-    this.navCtrl.navigateRoot("FollowingListPage");
+    this.navCtrl.navigateRoot("following-list");
   }
   goToFollowedByList() {
-    this.navCtrl.navigateRoot("FollowerListPage");
+    this.navCtrl.navigateRoot("follower-list");
   }
   goToSettings() {
-    this.navCtrl.navigateRoot("SettingsPage");
+    this.navCtrl.navigateRoot("settings");
   }
   goToUserList(users) {
     this.navCtrl.navigateRoot(["user-list", { users: users }]);
