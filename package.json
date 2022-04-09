@@ -31,7 +31,7 @@
     "cordova-sqlite-storage": "^3.4.0",
     "core-js": "^2.5.4",
     "firebase": "^7.2.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ngx-ionic-image-viewer": "0.0.1",
     "ngx-moment": "^3.5.0",
     "onesignal-cordova-plugin": "^2.7.0",
